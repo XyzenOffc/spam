@@ -24,6 +24,11 @@
                 <label for="password">Password</label>
                 <input type="password" class="form-control" id="password" placeholder="Masukkan password">
             </div>
+            <div class="form-group">
+                <label for="rememberMe">
+                    <input type="checkbox" id="rememberMe"> Simpan login
+                </label>
+            </div>
             <button type="submit" class="btn btn-primary">Login</button>
         </form>
     </div>
@@ -46,7 +51,8 @@
             </div>
             <div class="form-group">
                 <label for="accountImage">Gambar</label>
-                <input type="file" class="form-control-file" id="accountImage">
+                <input type="file" class="form-control-file" id="accountImage" onchange="previewImage()">
+                <img id="imagePreview" src="" alt="Preview Image" style="max-width: 100%; margin-top: 10px;">
             </div>
             <div class="form-group">
                 <label for="contactLink">Link Kontak (WA)</label>
@@ -69,14 +75,27 @@
         function checkLogin() {
             const username = document.getElementById("username").value;
             const password = document.getElementById("password").value;
+            const rememberMe = document.getElementById("rememberMe").checked;
 
+            // Jika login berhasil dan user ingin disimpan
             if (username === "xyzen" && password === "1") {
+                if (rememberMe) {
+                    localStorage.setItem("loggedIn", true); // Simpan status login
+                }
                 document.getElementById("login-form").style.display = "none";
                 document.getElementById("admin-panel").style.display = "block";
                 return false;
             } else {
                 alert("Username atau password salah!");
                 return false;
+            }
+        }
+
+        // Mengecek status login saat halaman dimuat
+        window.onload = function() {
+            if (localStorage.getItem("loggedIn")) {
+                document.getElementById("login-form").style.display = "none";
+                document.getElementById("admin-panel").style.display = "block";
             }
         }
 
@@ -91,7 +110,7 @@
             const accountCard = document.createElement("div");
             accountCard.className = "card mb-3";
             accountCard.innerHTML = `
-                <img src="img/sample.jpg" class="card-img-top" alt="Akun Image">
+                <img src="${document.getElementById('imagePreview').src}" class="card-img-top" alt="Akun Image">
                 <div class="card-body">
                     <h5 class="card-title">${accountName}</h5>
                     <p class="card-text">Spesifikasi: ${accountSpecs}</p>
@@ -104,12 +123,25 @@
 
             // Reset form
             document.getElementById("addAccountForm").reset();
+            document.getElementById("imagePreview").src = ""; // Reset gambar preview
         }
 
         // Fungsi untuk menghapus akun
         function deleteAccount(button) {
             const accountCard = button.parentElement.parentElement;
             accountCard.remove();
+        }
+
+        // Fungsi untuk menampilkan preview gambar
+        function previewImage() {
+            const file = document.getElementById("accountImage").files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById("imagePreview").src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
         }
     </script>
 
