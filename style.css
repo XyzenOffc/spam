@@ -29,3 +29,8 @@ h2, h3 {
 .navbar-dark .navbar-brand {
     color: #ffffff;
 }
+
+#imagePreview {
+    max-width: 100%;
+    margin-top: 10px;
+}
