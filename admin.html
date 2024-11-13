@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Market Xyzen</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Admin Market Xyzen</a>
+    </nav>
+
+    <!-- Form Login -->
+    <div class="container mt-5" id="login-form">
+        <h3>Login Admin</h3>
+        <form onsubmit="return checkLogin()">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" placeholder="Masukkan username">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Masukkan password">
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+    </div>
+
+    <!-- Panel Admin -->
+    <div class="container mt-4" id="admin-panel" style="display: none;">
+        <h2>Tambah Akun Baru</h2>
+        <form id="addAccountForm">
+            <div class="form-group">
+                <label for="accountName">Nama Akun</label>
+                <input type="text" class="form-control" id="accountName" placeholder="Masukkan nama akun">
+            </div>
+            <div class="form-group">
+                <label for="accountSpecs">Spesifikasi</label>
+                <textarea class="form-control" id="accountSpecs" rows="3" placeholder="Masukkan spesifikasi akun"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="accountPrice">Harga</label>
+                <input type="text" class="form-control" id="accountPrice" placeholder="Masukkan harga akun">
+            </div>
+            <div class="form-group">
+                <label for="accountImage">Gambar</label>
+                <input type="file" class="form-control-file" id="accountImage">
+            </div>
+            <div class="form-group">
+                <label for="contactLink">Link Kontak (WA)</label>
+                <input type="text" class="form-control" id="contactLink" placeholder="Masukkan link WA">
+            </div>
+            <button type="button" class="btn btn-primary" onclick="addAccount()">Tambah Akun</button>
+        </form>
+
+        <!-- Daftar Akun yang Diupload -->
+        <div class="mt-5">
+            <h2>Akun yang Tersedia</h2>
+            <div id="uploaded-accounts">
+                <!-- List akun akan muncul di sini setelah upload -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fungsi untuk memeriksa login
+        function checkLogin() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            if (username === "xyzen" && password === "1") {
+                document.getElementById("login-form").style.display = "none";
+                document.getElementById("admin-panel").style.display = "block";
+                return false;
+            } else {
+                alert("Username atau password salah!");
+                return false;
+            }
+        }
+
+        // Fungsi untuk menambah akun
+        function addAccount() {
+            const accountName = document.getElementById("accountName").value;
+            const accountSpecs = document.getElementById("accountSpecs").value;
+            const accountPrice = document.getElementById("accountPrice").value;
+            const contactLink = document.getElementById("contactLink").value;
+
+            // Membuat elemen baru untuk akun
+            const accountCard = document.createElement("div");
+            accountCard.className = "card mb-3";
+            accountCard.innerHTML = `
+                <img src="img/sample.jpg" class="card-img-top" alt="Akun Image">
+                <div class="card-body">
+                    <h5 class="card-title">${accountName}</h5>
+                    <p class="card-text">Spesifikasi: ${accountSpecs}</p>
+                    <p class="card-text">Harga: Rp ${accountPrice}</p>
+                    <a href="${contactLink}" class="btn btn-primary">Hubungi Penjual</a>
+                    <button class="btn btn-danger mt-2" onclick="deleteAccount(this)">Hapus Akun</button>
+                </div>
+            `;
+            document.getElementById("uploaded-accounts").appendChild(accountCard);
+
+            // Reset form
+            document.getElementById("addAccountForm").reset();
+        }
+
+        // Fungsi untuk menghapus akun
+        function deleteAccount(button) {
+            const accountCard = button.parentElement.parentElement;
+            accountCard.remove();
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
