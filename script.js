@@ -1,5 +1,5 @@
-let targetList = [];  // Menyimpan list target
-let totalSpam = 0;  // Menyimpan jumlah spam yang sudah dikirim
+let targetList = JSON.parse(localStorage.getItem('targetList')) || [];  // Ambil data target dari localStorage, jika ada
+let totalSpam = parseInt(localStorage.getItem('totalSpam')) || 0;  // Ambil jumlah spam yang terkirim dari localStorage
 let spamInterval = null;  // Untuk mengontrol interval spam
 
 // Fungsi untuk menghasilkan deviceId dengan crypto API browser
@@ -17,7 +17,7 @@ const sendMessage = async (username, message) => {
 
         const deviceId = generateDeviceId();
         // Gunakan CORS Anywhere sebagai proxy untuk mengatasi masalah CORS
-        const url = "https://cors-anywhere.herokuapp.com/https://ngl.link/api/submit";
+        const url = "https://cors-anywhere.herokuapp.com/https://ngl.link/api/submit"; // Proxy untuk mengatasi CORS
         const headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/109.0",
             "Accept": "*/*",
@@ -41,8 +41,9 @@ const sendMessage = async (username, message) => {
             credentials: "include"
         });
 
-        if (response.status === 200) {
+        if (response.ok) {
             totalSpam++;  // Increment jumlah spam terkirim
+            localStorage.setItem('totalSpam', totalSpam);  // Simpan ke localStorage
             document.getElementById('totalSpam').textContent = totalSpam;
             console.log(`[${formattedDate}] [Msg] Sent: ${message}`);
         } else {
@@ -63,6 +64,7 @@ document.getElementById('sendMessageForm').addEventListener('submit', (event) =>
     const message = document.getElementById('message').value;
 
     targetList.push({ username, message });
+    localStorage.setItem('targetList', JSON.stringify(targetList));  // Simpan daftar target ke localStorage
     
     // Menampilkan username yang ditambahkan ke daftar
     const listItem = document.createElement('li');
@@ -106,3 +108,17 @@ const stopSpam = () => {
 // Menghubungkan tombol Start dan Stop dengan fungsi terkait
 document.getElementById('startSpamButton').addEventListener('click', startSpam);
 document.getElementById('stopSpamButton').addEventListener('click', stopSpam);
+
+// Menampilkan target yang sudah ada di localStorage ketika halaman dimuat ulang
+document.addEventListener('DOMContentLoaded', () => {
+    // Tampilkan daftar target
+    targetList.forEach(target => {
+        const listItem = document.createElement('li');
+        listItem.classList.add('list-group-item');
+        listItem.textContent = `Target: ${target.username}, Message: ${target.message}`;
+        document.getElementById('targetList').appendChild(listItem);
+    });
+
+    // Menampilkan total spam yang sudah terkirim
+    document.getElementById('totalSpam').textContent = totalSpam;
+});
