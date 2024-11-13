@@ -16,7 +16,8 @@ const sendMessage = async (username, message) => {
         const formattedDate = `${date.getHours()}:${date.getMinutes()}`;
 
         const deviceId = generateDeviceId();
-        const url = "https://ngl.link/api/submit";
+        // Gunakan CORS Anywhere sebagai proxy untuk mengatasi masalah CORS
+        const url = "https://cors-anywhere.herokuapp.com/https://ngl.link/api/submit";
         const headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/109.0",
             "Accept": "*/*",
@@ -40,17 +41,17 @@ const sendMessage = async (username, message) => {
             credentials: "include"
         });
 
-        if (response.status !== 200) {
-            console.log(`[${formattedDate}] [Err] Ratelimited, waiting 5 seconds...`);
-            await new Promise(resolve => setTimeout(resolve, 5000)); // Tunggu 5 detik
-        } else {
+        if (response.status === 200) {
             totalSpam++;  // Increment jumlah spam terkirim
             document.getElementById('totalSpam').textContent = totalSpam;
             console.log(`[${formattedDate}] [Msg] Sent: ${message}`);
+        } else {
+            const responseText = await response.text();  // Menampilkan pesan error atau info lainnya
+            console.error(`[${formattedDate}] [Err] Failed with status ${response.status}: ${responseText}`);
         }
 
     } catch (error) {
-        console.error(`[Err] ${error}`);
+        console.error(`[Err] ${error.message}`);
     }
 };
 
