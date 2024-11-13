@@ -1,51 +1,65 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market Xyzen</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Market Xyzen</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-image: url('https://raw.githubusercontent.com/username/market-xyzen/master/img/xyzen.jpg');
+      background-size: cover;
+      background-position: center;
+      color: white;
+    }
+    .product-card {
+      margin-bottom: 20px;
+    }
+  </style>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div id="loading-screen">
-        <h1 class="text-center">Welcome to Market Xyzen</h1>
-    </div>
-
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="display: none;" id="navbar">
-        <a class="navbar-brand" href="#">Market Xyzen</a>
-    </nav>
-
-    <div class="container mt-4" style="display: none;" id="main-content">
-        <h2 class="text-center text-white">Daftar Akun Dijual</h2>
-        <div class="row" id="account-list">
-            <!-- Contoh Akun -->
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="img/sample.jpg" class="card-img-top" alt="Akun Image">
-                    <div class="card-body">
-                        <h5 class="card-title">Nama Akun</h5>
-                        <p class="card-text">Spesifikasi: Spek singkat akun</p>
-                        <p class="card-text">Harga: Rp X.XXX.XXX</p>
-                        <a href="https://wa.me/nomor_wa" class="btn btn-primary">Hubungi Penjual</a>
-                    </div>
-                </div>
-            </div>
-            <!-- Tambahkan lebih banyak akun sesuai kebutuhan -->
+  <div class="container">
+    <h1 class="text-center my-4">Market Xyzen - Produk Akun</h1>
+    <div class="row">
+      <!-- Produk 1 -->
+      <div class="col-md-4">
+        <div class="card product-card">
+          <img src="https://raw.githubusercontent.com/username/market-xyzen/master/img/xyzen.jpg" class="card-img-top" alt="Akun 1">
+          <div class="card-body">
+            <h5 class="card-title">Akun 1</h5>
+            <p class="card-text">Deskripsi akun 1</p>
+            <p class="card-text">Harga: Rp 100.000</p>
+            <a href="#" class="btn btn-primary">Beli</a>
+          </div>
         </div>
+      </div>
+      <!-- Produk 2 -->
+      <div class="col-md-4">
+        <div class="card product-card">
+          <img src="https://raw.githubusercontent.com/username/market-xyzen/master/img/xyzen.jpg" class="card-img-top" alt="Akun 2">
+          <div class="card-body">
+            <h5 class="card-title">Akun 2</h5>
+            <p class="card-text">Deskripsi akun 2</p>
+            <p class="card-text">Harga: Rp 150.000</p>
+            <a href="#" class="btn btn-primary">Beli</a>
+          </div>
+        </div>
+      </div>
+      <!-- Produk 3 -->
+      <div class="col-md-4">
+        <div class="card product-card">
+          <img src="https://raw.githubusercontent.com/username/market-xyzen/master/img/xyzen.jpg" class="card-img-top" alt="Akun 3">
+          <div class="card-body">
+            <h5 class="card-title">Akun 3</h5>
+            <p class="card-text">Deskripsi akun 3</p>
+            <p class="card-text">Harga: Rp 200.000</p>
+            <a href="#" class="btn btn-primary">Beli</a>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <script>
-        // Menghilangkan loading screen setelah beberapa detik
-        setTimeout(function() {
-            document.getElementById("loading-screen").style.display = "none";
-            document.getElementById("navbar").style.display = "block";
-            document.getElementById("main-content").style.display = "block";
-        }, 2000); // Loading screen tampil selama 2 detik
-    </script>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
