@@ -1,6 +1,7 @@
 let targetList = JSON.parse(localStorage.getItem('targetList')) || [];  // Ambil data target dari localStorage, jika ada
 let totalSpam = parseInt(localStorage.getItem('totalSpam')) || 0;  // Ambil jumlah spam yang terkirim dari localStorage
 let spamInterval = null;  // Untuk mengontrol interval spam
+let isSpamRunning = false;  // Flag untuk cek apakah spam sedang berjalan
 
 // Fungsi untuk menghasilkan deviceId dengan crypto API browser
 const generateDeviceId = () => {
@@ -56,16 +57,22 @@ const sendMessage = async (username, message) => {
     }
 };
 
-// Menangani input form dan menambah target ke list
+// Menangani input form dan menambah target ke list (tapi hanya jika spam sudah selesai)
 document.getElementById('sendMessageForm').addEventListener('submit', (event) => {
     event.preventDefault();
+
+    if (isSpamRunning) {
+        alert('Spam is running! Wait until it finishes before adding new targets.');
+        return;
+    }
 
     const username = document.getElementById('username').value;
     const message = document.getElementById('message').value;
 
+    // Tambahkan target ke list hanya setelah spam selesai
     targetList.push({ username, message });
     localStorage.setItem('targetList', JSON.stringify(targetList));  // Simpan daftar target ke localStorage
-    
+
     // Menampilkan username yang ditambahkan ke daftar
     const listItem = document.createElement('li');
     listItem.classList.add('list-group-item');
@@ -79,10 +86,17 @@ document.getElementById('sendMessageForm').addEventListener('submit', (event) =>
 
 // Fungsi untuk memulai spam
 const startSpam = () => {
-    if (spamInterval) {
-        clearInterval(spamInterval);  // Hentikan interval jika sebelumnya sudah ada
+    if (isSpamRunning) {
+        alert('Spam is already running!');
+        return;
     }
-    
+
+    if (targetList.length === 0) {
+        alert('No targets in the list!');
+        return;
+    }
+
+    isSpamRunning = true;  // Set flag spam running
     let currentIndex = 0;
     spamInterval = setInterval(() => {
         if (currentIndex < targetList.length) {
@@ -92,6 +106,7 @@ const startSpam = () => {
         } else {
             clearInterval(spamInterval);  // Hentikan spam jika semua target sudah terkirim
             alert('All messages sent!');
+            isSpamRunning = false;  // Reset flag spam running setelah selesai
         }
     }, 2000);  // Kirim pesan setiap 2 detik
 };
@@ -102,6 +117,7 @@ const stopSpam = () => {
         clearInterval(spamInterval);
         spamInterval = null;
         alert('Spam stopped!');
+        isSpamRunning = false;  // Reset flag spam running
     }
 };
 
